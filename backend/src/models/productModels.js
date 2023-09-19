@@ -11,7 +11,17 @@ const getByIdModels = async (id) => {
     return product;
 };
 
+const newProductModels = async (name) => {
+    const [{ insertId }] = await connectiondb.execute(
+'INSERT INTO products (name) VALUES (?)',
+    [name],
+);
+// console.log(insertId);
+    return insertId;
+};
+
 module.exports = { 
     getAllModels,
     getByIdModels,
+    newProductModels,
 };

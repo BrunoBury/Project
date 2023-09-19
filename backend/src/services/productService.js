@@ -12,7 +12,14 @@ const getByIdServ = async (id) => {
   return product;
 };
 
+const newProductServ = async (name) => {
+  const product = await productModels.newProductModels(name);
+  // console.log(product);
+  return product;
+};
+
 module.exports = {
  getAllServ,
-  getByIdServ,
+ getByIdServ,
+ newProductServ,
 };
