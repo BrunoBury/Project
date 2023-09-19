@@ -5,7 +5,7 @@ const { productsMock, productById } = require('../mocks/mockProducts');
 
 const { expect } = chai;
 
-describe('Models', function () {
+describe('Product Models', function () {
   let connectiondb;
 
   beforeEach(function () {

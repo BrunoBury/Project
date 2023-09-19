@@ -10,7 +10,7 @@ const getByIdControler = async (req, res) => {
   const { id } = req.params;
   const product = await productServices.getByIdServ(id);
 
-  if (!product || product.length === 0) {
+  if (!product) {
     return res.status(404).json({ message: 'Product not found' });
   }
   

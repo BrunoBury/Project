@@ -5,7 +5,7 @@ const productModels = require('../../../src/models/productModels');
 
 const { expect } = chai;
 
-describe('Services', function () {
+describe('Product Services', function () {
   let productModelsStub;
 
   beforeEach(function () {

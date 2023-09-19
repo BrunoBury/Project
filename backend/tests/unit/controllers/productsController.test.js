@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { productController } = require('../../../src/controllers');
 const productServices = require('../../../src/services/productService');
 
-describe('Controllers', function () {
+describe('Product Controllers', function () {
   let req; 
   let res;
   let productServicesStub;
