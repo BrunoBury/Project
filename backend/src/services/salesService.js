@@ -12,7 +12,14 @@ const getByIdServ = async (id) => {
     return sale;
 };
 
+const addSalesServ = async (sale) => {
+    const newSale = await salesModels.addSalesModels(sale);
+
+    return newSale;
+};
+
 module.exports = {
     getAllServ,
     getByIdServ,
+    addSalesServ,
 };
