@@ -49,7 +49,8 @@ const addSalesModels = async (sale) => {
     ));
     
     await Promise.all(salesProducts);
-
+    //  console.log(insertId);
+    //  console.log(sale);
     return {
         id: insertId,
         itemsSold: sale,

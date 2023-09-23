@@ -18,8 +18,20 @@ const newProductServ = async (name) => {
   return product;
 };
 
+const updateProductServ = async (id, name) => {
+  const product = await productModels.updateProductModels(id, name);
+ return product;
+};
+
+const deleteProductServ = async (id) => {
+  const product = await productModels.deleteProductModels(id);
+ return product;
+};
+
 module.exports = {
  getAllServ,
  getByIdServ,
  newProductServ,
+ updateProductServ,
+  deleteProductServ,
 };

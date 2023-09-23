@@ -24,6 +24,7 @@ const addSalesControler = async (req, res) => {
     const itensSold = req.body;
     const newSale = await salesServices.addSalesServ(itensSold);
     res.status(201).json(newSale);
+    // console.log(newSale);
 };
 
 module.exports = {
