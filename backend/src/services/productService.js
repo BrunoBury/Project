@@ -20,6 +20,9 @@ const newProductServ = async (name) => {
 
 const updateProductServ = async (id, name) => {
   const product = await productModels.updateProductModels(id, name);
+  if (!product) {
+    return null;
+  }
  return product;
 };
 

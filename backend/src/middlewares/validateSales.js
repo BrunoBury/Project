@@ -1,6 +1,6 @@
 const { productModels } = require('../models');
 
-const validateProductId = (productId) => !productId;
+const validateProductId = (productId) => productId === undefined;
 const validateQuantity = (quantity) => quantity === undefined || quantity === null || quantity <= 0;
 
 const validateProductExiste = async (productId) => {
