@@ -35,6 +35,7 @@ const getByIdModels = async (id) => {
             s.id = ?
         ORDER BY s.id ASC, sp.product_id ASC;
     `, [id]);
+    // console.log(sale);
     return sale;
 };
 
@@ -42,20 +43,23 @@ const addSalesModels = async (sale) => {
     const [{ insertId }] = await connectiondb.execute(
         'INSERT INTO sales () VALUES ()',
     );
-
+   
     const salesProducts = sale.map(({ productId, quantity }) => connectiondb.execute(
         'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
         [insertId, productId, quantity],
-    ));
-    
-    await Promise.all(salesProducts);
+        
+    ));        
+     
+    await Promise.all(salesProducts);   
+    console.log(salesProducts);
     //  console.log(insertId);
     //  console.log(sale);
+    
     return {
         id: insertId,
         itemsSold: sale,
     };
-    };
+};
 
 module.exports = {
     getAllModels,

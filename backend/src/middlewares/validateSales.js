@@ -1,46 +1,52 @@
 const { productModels } = require('../models');
 
-const validateProductId = (productId) => productId === undefined;
-const validateQuantity = (quantity) => quantity === undefined || quantity === null || quantity <= 0;
-
-const validateProductExiste = async (productId) => {
-    const product = await productModels.getByIdModels(productId);
-    return product !== undefined;
-};
-
-const validateProduct = async (product) => {
-    const { productId, quantity } = product;
-    const validationResult = {};
-
-    if (validateProductId(productId)) {
-        validationResult.productIdError = '"productId" is required';
-    }
-
-    if (validateQuantity(quantity)) {
-        validationResult.quantityError = '"quantity" must be greater than or equal to 1';
-    }
-
-    if (!(await validateProductExiste(productId))) {
-        validationResult.productNotFoundError = 'Product not found';
-    }
-
-    return validationResult;
-};
-
-const validateSales = async (req, res, next) => {
+const validateProductId = (req, res, next) => {
     const sales = req.body;
-
-    const validationResults = await Promise.all(sales.map(validateProduct));
-
-    if (validationResults.some((result) => result.productIdError)) {
-        return res.status(400).json({ message: '"productId" is required' });
+  
+    const missingProductId = sales.find((item) => !item.productId);
+  
+    if (missingProductId) {
+      return res.status(400).json({ message: '"productId" is required' });
     }
+  
+    next();
+  };
 
-    if (validationResults.some((result) => result.quantityError)) {
-        return res.status(400).json({ message: '"quantity" is required' });
+const validateProductQuantity = async (req, res, next) => {
+    const sales = req.body;
+  
+    const invalidQuantity = sales
+    .find((item) => item.quantity === undefined || item.quantity === null);
+  
+    if (invalidQuantity) {
+      return res.status(400).json({ message: '"quantity" is required' });
     }
+  
+    next();
+  };
 
-    if (validationResults.some((result) => result.productNotFoundError)) {
+const validateQuantityGreaterThanZero = async (req, res, next) => {
+    const sales = req.body;
+  
+    const invalidQuantity = sales
+    .find((item) => item.quantity <= 0);
+  
+    if (invalidQuantity) {
+      return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
+    }
+  
+    next();
+  };
+
+const validateProductExist = async (req, res, next) => {
+    const sales = req.body;
+    const produductsDB = await productModels.getAllModels();
+    const productsIds = produductsDB.map((product) => product.id);
+
+    const invalidProduct = sales
+    .filter((item) => !productsIds.includes(item.productId));
+
+    if (invalidProduct.length > 0) {
         return res.status(404).json({ message: 'Product not found' });
     }
 
@@ -48,6 +54,8 @@ const validateSales = async (req, res, next) => {
 };
 
 module.exports = {
-    validateSales,
-    validateProductExiste,
+    validateProductId,
+    validateProductQuantity,
+    validateQuantityGreaterThanZero,
+    validateProductExist,
 };    
